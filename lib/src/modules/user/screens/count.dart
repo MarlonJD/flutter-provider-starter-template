@@ -1,5 +1,10 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:testprovider/src/modules/user/notifiers/counter_notifier.dart';
 
 class Count extends StatelessWidget {

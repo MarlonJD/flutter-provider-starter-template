@@ -1,31 +1,27 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Credentials {
-  final String username;
-  final String password;
+import '../../../common/models/auth_model.dart';
 
-  Credentials(this.username, this.password);
-}
-
+/// The sign-in screen.
 class SignInScreen extends StatefulWidget {
-  final ValueChanged<Credentials> onSignIn;
-
+  /// Creates a sign-in screen.
   const SignInScreen({
-    required this.onSignIn,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -37,7 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   Text('Sign in',
                       style: Theme.of(context).textTheme.headlineMedium),
                   TextField(
@@ -53,9 +49,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     padding: const EdgeInsets.all(16),
                     child: TextButton(
                       onPressed: () async {
-                        widget.onSignIn(Credentials(
-                            _usernameController.value.text,
-                            _passwordController.value.text));
+                        AuthModelScope.of(context).signIn(
+                          _usernameController.text,
+                          _passwordController.text,
+                        );
                       },
                       child: const Text('Sign in'),
                     ),

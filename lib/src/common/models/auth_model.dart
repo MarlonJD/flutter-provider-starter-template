@@ -1,13 +1,16 @@
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+
+// Package imports:
 import 'package:hive_flutter/hive_flutter.dart';
 
 /// A mock authentication service
-class AuthService with ChangeNotifier, DiagnosticableTreeMixin {
+class AuthModel with ChangeNotifier {
   bool? _signedIn;
   bool? get signedIn => _signedIn;
 
-  AuthService() {
+  AuthModel() {
     getPreferences();
   }
 
@@ -35,13 +38,10 @@ class AuthService with ChangeNotifier, DiagnosticableTreeMixin {
 
     // Sign out.
     _signedIn = false;
-
     notifyListeners();
   }
 
   Future<bool?> signIn(String username, String password) async {
-    await Future<void>.delayed(const Duration(milliseconds: 200));
-
     // Write to the box
     var box = await Hive.openBox(authBoxKey);
     await box.put(authKey, true);
@@ -56,19 +56,19 @@ class AuthService with ChangeNotifier, DiagnosticableTreeMixin {
 
   @override
   bool operator ==(Object other) =>
-      other is AuthService && other._signedIn == _signedIn;
+      other is AuthModel && other._signedIn == _signedIn;
 
   @override
   int get hashCode => _signedIn.hashCode;
 }
 
-class AuthServiceScope extends InheritedNotifier<AuthService> {
-  const AuthServiceScope({
+class AuthModelScope extends InheritedNotifier<AuthModel> {
+  const AuthModelScope({
     required super.notifier,
     required super.child,
     super.key,
   });
 
-  static AuthService of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<AuthServiceScope>()!.notifier!;
+  static AuthModel of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<AuthModelScope>()!.notifier!;
 }

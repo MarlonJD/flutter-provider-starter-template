@@ -1,15 +1,17 @@
+// Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
-import 'package:testprovider/src/services/theme_service.dart';
 
-class ModelTheme with ChangeNotifier, DiagnosticableTreeMixin {
+// Package imports:
+import 'package:hive_flutter/hive_flutter.dart';
+
+class ThemeModel with ChangeNotifier, DiagnosticableTreeMixin {
   late bool _isDark;
   late ThemeService _preferences;
   bool get isDark => _isDark;
 
-  ModelTheme() {
+  ThemeModel() {
     _isDark = false;
     _preferences = ThemeService();
     getPreferences();

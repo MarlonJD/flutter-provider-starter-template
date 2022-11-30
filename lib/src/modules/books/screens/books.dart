@@ -1,18 +1,24 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
-import 'package:easy_localization/easy_localization.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:testprovider/src/services/routing_service.dart';
 
+// Package imports:
+import 'package:go_router/go_router.dart';
+
+// Project imports:
 import '../data.dart';
 import '../widgets/book_list.dart';
 
+/// A screen that displays a list of books.
 class BooksScreen extends StatefulWidget {
-  const BooksScreen({
-    super.key,
-  });
+  /// Creates a [BooksScreen].
+  const BooksScreen(this.kind, {Key? key}) : super(key: key);
+
+  /// Which tab to display.
+  final String kind;
 
   @override
   State<BooksScreen> createState() => _BooksScreenState();
@@ -25,27 +31,31 @@ class _BooksScreenState extends State<BooksScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this)
-      ..addListener(_handleTabIndexChanged);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void didUpdateWidget(BooksScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-    final newPath = _routeState.route.pathTemplate;
-    if (newPath.startsWith('/books/popular')) {
-      _tabController.index = 0;
-    } else if (newPath.startsWith('/books/new')) {
-      _tabController.index = 1;
-    } else if (newPath == '/books/all') {
-      _tabController.index = 2;
+    switch (widget.kind) {
+      case 'popular':
+        _tabController.index = 0;
+        break;
+
+      case 'new':
+        _tabController.index = 1;
+        break;
+
+      case 'all':
+        _tabController.index = 2;
+        break;
     }
   }
 
   @override
   void dispose() {
-    _tabController.removeListener(_handleTabIndexChanged);
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -54,10 +64,13 @@ class _BooksScreenState extends State<BooksScreen>
         appBar: AppBar(
           title: const Text('Books'),
           bottom: TabBar(
+            labelColor: Theme.of(context).colorScheme.primary,
+            indicatorColor: Theme.of(context).colorScheme.primary,
             controller: _tabController,
-            tabs: [
+            onTap: _handleTabTapped,
+            tabs: const <Tab>[
               Tab(
-                text: 'Popular'.tr(),
+                text: 'Popular',
                 icon: Icon(Icons.people),
               ),
               Tab(
@@ -73,7 +86,7 @@ class _BooksScreenState extends State<BooksScreen>
         ),
         body: TabBarView(
           controller: _tabController,
-          children: [
+          children: <Widget>[
             BookList(
               books: libraryInstance.popularBooks,
               onTap: _handleBookTapped,
@@ -90,23 +103,21 @@ class _BooksScreenState extends State<BooksScreen>
         ),
       );
 
-  RouteState get _routeState => RouteStateScope.of(context);
-
   void _handleBookTapped(Book book) {
-    _routeState.go('/book/${book.id}');
+    context.go('/book/${book.id}');
   }
 
-  void _handleTabIndexChanged() {
-    switch (_tabController.index) {
+  void _handleTabTapped(int index) {
+    switch (index) {
       case 1:
-        _routeState.go('/books/new');
+        context.go('/books/new');
         break;
       case 2:
-        _routeState.go('/books/all');
+        context.go('/books/all');
         break;
       case 0:
       default:
-        _routeState.go('/books/popular');
+        context.go('/books/popular');
         break;
     }
   }

@@ -1,14 +1,19 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright 2013 The Flutter Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:testprovider/src/services/auth_service.dart';
-import 'package:testprovider/src/services/routing_service.dart';
+
+// Package imports:
+import 'package:go_router/go_router.dart';
+import 'package:testprovider/src/common/models/auth_model.dart';
 import 'package:url_launcher/link.dart';
 
+/// The settings screen.
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  /// Creates a [SettingsScreen].
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -36,46 +41,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
 }
 
+/// The content of a [SettingsScreen].
 class SettingsContent extends StatelessWidget {
+  /// Creates a [SettingsContent].
   const SettingsContent({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
-        children: [
-          ...[
+        children: <Widget>[
+          ...<Widget>[
             Text(
               'Settings',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             ElevatedButton(
               onPressed: () {
-                AuthServiceScope.of(context).signOut();
+                AuthModelScope.of(context).signOut();
               },
               child: const Text('Sign out'),
             ),
             Link(
               uri: Uri.parse('/book/0'),
-              builder: (context, followLink) => TextButton(
+              builder: (BuildContext context, FollowLink? followLink) =>
+                  TextButton(
                 onPressed: followLink,
                 child: const Text('Go directly to /book/0 (Link)'),
               ),
             ),
             TextButton(
-              child: const Text('Go directly to /book/0 (RouteState)'),
               onPressed: () {
-                RouteStateScope.of(context).go('/book/0');
+                context.go('/book/0');
               },
+              child: const Text('Go directly to /book/0 (GoRouter)'),
             ),
-          ].map((w) => Padding(padding: const EdgeInsets.all(8), child: w)),
+          ].map<Widget>((Widget w) =>
+              Padding(padding: const EdgeInsets.all(8), child: w)),
           TextButton(
             onPressed: () => showDialog<String>(
               context: context,
-              builder: (context) => AlertDialog(
+              builder: (BuildContext context) => AlertDialog(
                 title: const Text('Alert!'),
                 content: const Text('The alert description goes here.'),
-                actions: [
+                actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pop(context, 'Cancel'),
                     child: const Text('Cancel'),
