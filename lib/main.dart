@@ -32,9 +32,9 @@ void main() async {
       ],
       // child: const MyApp(),
       child: EasyLocalization(
-          supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
+          supportedLocales: [Locale('en', 'US'), Locale('tr', 'TR')],
           path: 'assets/translations',
-          fallbackLocale: const Locale('tr', 'TR'),
+          fallbackLocale: Locale('tr', 'TR'),
           child: MainRouter()),
     ),
   );

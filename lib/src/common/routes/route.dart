@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -54,6 +55,9 @@ class MainRouter extends StatelessWidget {
           return MaterialApp.router(
               routerConfig: _router,
               debugShowCheckedModeBanner: false,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
               theme: themeNotifier.isDark
                   ? ThemeService().darkTheme
                   : ThemeService().lightTheme);

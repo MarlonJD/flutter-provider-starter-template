@@ -3,11 +3,14 @@
 // found in the LICENSE file.
 
 // Flutter imports:
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:testprovider/src/common/models/auth_model.dart';
+import 'package:testprovider/src/common/models/theme_model.dart';
 import 'package:url_launcher/link.dart';
 
 /// The settings screen.
@@ -97,7 +100,42 @@ class SettingsContent extends StatelessWidget {
               ),
             ),
             child: const Text('Show Dialog'),
-          )
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (context.locale.toString() == 'en_US') {
+                context.setLocale(const Locale('tr', 'TR'));
+                print("TR");
+              } else {
+                context.setLocale(const Locale('en', 'US'));
+                print("EN");
+                print(context.locale.toString());
+              }
+            },
+            child: Text('Change Language'),
+          ),
+          Consumer<ThemeModel>(
+            builder: (context, ThemeModel themeNotifier, child) {
+              return ElevatedButton(
+                  child: Row(
+                    children: [
+                      Icon(themeNotifier.isDark
+                          ? Icons.nightlight_round
+                          : Icons.wb_sunny),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Text('Change Theme').tr(),
+                    ],
+                  ),
+                  onPressed: () {
+                    themeNotifier.isDark
+                        ? themeNotifier.isDark = false
+                        : themeNotifier.isDark = true;
+                  });
+            },
+          ),
+          Text("Hello").tr(),
         ],
       );
 }
