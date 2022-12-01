@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:testprovider/src/common/models/auth_model.dart';
 import 'package:testprovider/src/common/models/theme_model.dart';
-import 'package:testprovider/src/common/routes/transition.dart';
 import 'package:testprovider/src/modules/books/data.dart';
 import 'package:testprovider/src/modules/books/screens/author_details.dart';
 import 'package:testprovider/src/modules/books/screens/authors.dart';
@@ -14,6 +13,7 @@ import 'package:testprovider/src/modules/books/screens/books.dart';
 import 'package:testprovider/src/modules/books/screens/scaffold.dart';
 import 'package:testprovider/src/modules/books/screens/settings.dart';
 import 'package:testprovider/src/modules/books/screens/sign_in.dart';
+import 'package:testprovider/src/routes/transition.dart';
 
 part 'pages.dart';
 

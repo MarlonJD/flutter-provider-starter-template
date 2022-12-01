@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:testprovider/src/common/models/theme_model.dart';
-import 'package:testprovider/src/common/routes/route.dart';
+import 'package:testprovider/src/routes/route.dart';
 
 /// This is a reimplementation of the default
 /// Flutter application using provider + [ChangeNotifier].
