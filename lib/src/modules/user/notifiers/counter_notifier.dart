@@ -1,14 +1,15 @@
 // Flutter imports:
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 /// Mix-in [DiagnosticableTreeMixin] to have access to [debugFillProperties] for the devtool
 // ignore: prefer_mixin
 class Counter with ChangeNotifier, DiagnosticableTreeMixin {
   int _count = 0;
 
+  /// The current value of the counter.
   int get count => _count;
 
+  /// Increments the counter.
   void increment() {
     _count++;
     notifyListeners();

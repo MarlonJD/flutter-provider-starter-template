@@ -3,8 +3,8 @@
 // found in the LICENSE file.
 
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:go_router/go_router.dart';
 
@@ -26,8 +26,8 @@ class BookstoreScaffold extends StatelessWidget {
   const BookstoreScaffold({
     required this.selectedTab,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// Which tab of the scaffold to display.
   final ScaffoldTab selectedTab;
@@ -69,4 +69,9 @@ class BookstoreScaffold extends StatelessWidget {
           ],
         ),
       );
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(EnumProperty<ScaffoldTab>('selectedTab', selectedTab));
+  }
 }

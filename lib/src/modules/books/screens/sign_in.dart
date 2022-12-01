@@ -4,16 +4,14 @@
 
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../../common/models/auth_model.dart';
+import 'package:testprovider/src/common/models/auth_model.dart';
 
 /// The sign-in screen.
 class SignInScreen extends StatefulWidget {
   /// Creates a sign-in screen.
   const SignInScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -34,8 +32,10 @@ class _SignInScreenState extends State<SignInScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text('Sign in',
-                      style: Theme.of(context).textTheme.headlineMedium),
+                  Text(
+                    'Sign in',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                   TextField(
                     decoration: const InputDecoration(labelText: 'Username'),
                     controller: _usernameController,
@@ -49,7 +49,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     padding: const EdgeInsets.all(16),
                     child: TextButton(
                       onPressed: () async {
-                        AuthModelScope.of(context).signIn(
+                        await AuthModelScope.of(context).signIn(
                           _usernameController.text,
                           _passwordController.text,
                         );

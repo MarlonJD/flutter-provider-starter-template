@@ -4,18 +4,16 @@
 
 // Flutter imports:
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:go_router/go_router.dart';
-
 // Project imports:
-import '../data.dart';
-import '../widgets/author_list.dart';
+import 'package:testprovider/src/modules/books/data.dart';
+import 'package:testprovider/src/modules/books/widgets/author_list.dart';
 
 /// A screen that displays a list of authors.
 class AuthorsScreen extends StatelessWidget {
   /// Creates an [AuthorsScreen].
-  const AuthorsScreen({Key? key}) : super(key: key);
+  const AuthorsScreen({super.key});
 
   /// The title of the screen.
   static const String title = 'Authors';

@@ -1,26 +1,24 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:go_router/go_router.dart';
 
 /// A page that fades in an out.
 class FadeTransitionPage extends CustomTransitionPage<void> {
   /// Creates a [FadeTransitionPage].
   FadeTransitionPage({
-    required LocalKey key,
-    required Widget child,
+    required LocalKey super.key,
+    required super.child,
   }) : super(
-            key: key,
-            transitionsBuilder: (BuildContext context,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                    Widget child) =>
-                FadeTransition(
-                  opacity: animation.drive(_curveTween),
-                  child: child,
-                ),
-            child: child);
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation.drive(_curveTween),
+            child: child,
+          ),
+        );
 
   static final CurveTween _curveTween = CurveTween(curve: Curves.easeIn);
 }

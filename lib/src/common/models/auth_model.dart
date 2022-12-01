@@ -1,38 +1,48 @@
 // Flutter imports:
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 
+import 'package:flutter/widgets.dart';
 // Package imports:
 import 'package:hive_flutter/hive_flutter.dart';
 
 /// A mock authentication service
 class AuthModel with ChangeNotifier {
-  bool? _signedIn;
-  bool? get signedIn => _signedIn;
-
+  /// Get user state from Hive
   AuthModel() {
     getPreferences();
   }
 
+  bool? _signedIn;
+
+  /// Sign in the user
+  bool? get signedIn => _signedIn;
+
+  /// Auth Box Key for Hive
   static const authBoxKey = "authBoxKey";
+
+  /// Auth auth key for Hive on Auth Box
   static const authKey = "authKey";
 
-  getPreferences() async {
+  /// Get the user state from Hive
+  Future<void> getPreferences() async {
     _signedIn = await getAuthState();
-    print(_signedIn);
+    debugPrint(_signedIn.toString());
     notifyListeners();
   }
 
-  getAuthState() async {
-    var box = await Hive.openBox(authBoxKey);
-    return box.get(authKey) ?? false;
+  /// Get the user state from Hive
+  Future<bool?> getAuthState() async {
+    // ignore: inference_failure_on_function_invocation
+    final box = await Hive.openBox(authBoxKey);
+    return box.get(authKey) as bool? ?? false;
   }
 
+  /// Sign Out from Hive and notify listeners
   Future<void> signOut() async {
     await Future<void>.delayed(const Duration(milliseconds: 200));
 
     // Write to the box
-    var box = await Hive.openBox(authBoxKey);
+    // ignore: inference_failure_on_function_invocation
+    final box = await Hive.openBox(authBoxKey);
     await box.put(authKey, false);
     await box.close();
 
@@ -41,34 +51,32 @@ class AuthModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Sign In from Hive and notify listeners
   Future<bool?> signIn(String username, String password) async {
-    // Write to the box
-    var box = await Hive.openBox(authBoxKey);
+    /// Write to the box
+    // ignore: inference_failure_on_function_invocation
+    final box = await Hive.openBox(authBoxKey);
     await box.put(authKey, true);
     await box.close();
 
-    // Sign in. Allow any password.
+    /// Sign in. Allow any password.
     _signedIn = true;
 
     notifyListeners();
     return _signedIn;
   }
-
-  @override
-  bool operator ==(Object other) =>
-      other is AuthModel && other._signedIn == _signedIn;
-
-  @override
-  int get hashCode => _signedIn.hashCode;
 }
 
+/// Auth Model Scope using for go_router without provider
 class AuthModelScope extends InheritedNotifier<AuthModel> {
+  /// Scope for Auth Model
   const AuthModelScope({
     required super.notifier,
     required super.child,
     super.key,
   });
 
+  /// Notifier boilerplate
   static AuthModel of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<AuthModelScope>()!.notifier!;
 }

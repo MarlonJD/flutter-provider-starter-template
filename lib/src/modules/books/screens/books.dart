@@ -3,25 +3,29 @@
 // found in the LICENSE file.
 
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:go_router/go_router.dart';
-
 // Project imports:
-import '../data.dart';
-import '../widgets/book_list.dart';
+import 'package:testprovider/src/modules/books/data.dart';
+import 'package:testprovider/src/modules/books/widgets/book_list.dart';
 
 /// A screen that displays a list of books.
 class BooksScreen extends StatefulWidget {
   /// Creates a [BooksScreen].
-  const BooksScreen(this.kind, {Key? key}) : super(key: key);
+  const BooksScreen(this.kind, {super.key});
 
   /// Which tab to display.
   final String kind;
 
   @override
   State<BooksScreen> createState() => _BooksScreenState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('kind', kind));
+  }
 }
 
 class _BooksScreenState extends State<BooksScreen>

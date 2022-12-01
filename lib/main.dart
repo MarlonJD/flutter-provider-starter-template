@@ -1,21 +1,12 @@
-// ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
-
-// Flutter imports:
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-// Package imports:
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:testprovider/src/common/models/theme_model.dart';
+import 'package:testprovider/src/common/routes/route.dart';
 
-// Project imports:
-import 'src/common/models/auth_model.dart';
-import 'src/common/models/theme_model.dart';
-import 'src/common/routes/route.dart';
-
-/// This is a reimplementation of the default Flutter application using provider + [ChangeNotifier].
+/// This is a reimplementation of the default
+/// Flutter application using provider + [ChangeNotifier].
 void main() async {
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,10 +23,11 @@ void main() async {
       ],
       // child: const MyApp(),
       child: EasyLocalization(
-          supportedLocales: [Locale('en', 'US'), Locale('tr', 'TR')],
-          path: 'assets/translations',
-          fallbackLocale: Locale('tr', 'TR'),
-          child: MainRouter()),
+        supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('tr', 'TR'),
+        child: MainRouter(),
+      ),
     ),
   );
 }

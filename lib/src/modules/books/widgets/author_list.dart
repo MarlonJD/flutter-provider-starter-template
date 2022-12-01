@@ -3,10 +3,10 @@
 // found in the LICENSE file.
 
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 // Project imports:
-import '../data.dart';
+import 'package:testprovider/src/modules/books/data.dart';
 
 /// The author list view.
 class AuthorList extends StatelessWidget {
@@ -14,8 +14,8 @@ class AuthorList extends StatelessWidget {
   const AuthorList({
     required this.authors,
     this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The list of authors to be shown.
   final List<Author> authors;
@@ -36,4 +36,11 @@ class AuthorList extends StatelessWidget {
           onTap: onTap != null ? () => onTap!(authors[index]) : null,
         ),
       );
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(ObjectFlagProperty<ValueChanged<Author>?>.has('onTap', onTap))
+      ..add(IterableProperty<Author>('authors', authors));
+  }
 }

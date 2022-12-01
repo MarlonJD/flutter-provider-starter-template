@@ -1,40 +1,34 @@
-// Flutter imports:
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
-import 'package:collection/collection.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
-// Project imports:
 import 'package:testprovider/src/common/models/auth_model.dart';
+import 'package:testprovider/src/common/models/theme_model.dart';
+import 'package:testprovider/src/common/routes/transition.dart';
+import 'package:testprovider/src/modules/books/data.dart';
+import 'package:testprovider/src/modules/books/screens/author_details.dart';
+import 'package:testprovider/src/modules/books/screens/authors.dart';
+import 'package:testprovider/src/modules/books/screens/book_details.dart';
+import 'package:testprovider/src/modules/books/screens/books.dart';
+import 'package:testprovider/src/modules/books/screens/scaffold.dart';
+import 'package:testprovider/src/modules/books/screens/settings.dart';
 import 'package:testprovider/src/modules/books/screens/sign_in.dart';
-import '../../modules/books/data.dart';
-import '../../modules/books/data/book.dart';
-import '../../modules/books/screens/author_details.dart';
-import '../../modules/books/screens/authors.dart';
-import '../../modules/books/screens/book_details.dart';
-import '../../modules/books/screens/books.dart';
-import '../../modules/books/screens/scaffold.dart';
-import '../../modules/books/screens/settings.dart';
-import '../models/theme_model.dart';
-import 'transition.dart';
 
 part 'pages.dart';
 
 final AuthModel _auth = AuthModel();
 
 String? _guard(BuildContext context, GoRouterState state) {
-  final bool? signedIn = _auth.signedIn;
-  final bool signingIn = state.subloc == '/login';
+  final signedIn = _auth.signedIn;
+  final signingIn = state.subloc == '/login';
 
   // Go to /signin if the user is not signed in
   if ((signedIn == false || signedIn == null) && !signingIn) {
     return '/login';
   }
   // Go to /books if the user is signed in and tries to go to /signin.
-  else if (signedIn == true && signingIn) {
+  else if (signedIn ?? true && signingIn) {
     return '/books';
   }
 
@@ -42,7 +36,9 @@ String? _guard(BuildContext context, GoRouterState state) {
   return null;
 }
 
+/// Main Router
 class MainRouter extends StatelessWidget {
+  // ignore: public_member_api_docs
   MainRouter({super.key});
 
   final ValueKey<String> _scaffoldKey = const ValueKey<String>('App scaffold');
@@ -51,17 +47,19 @@ class MainRouter extends StatelessWidget {
   Widget build(BuildContext context) => AuthModelScope(
         notifier: _auth,
         child: Consumer<ThemeModel>(
-            builder: (context, ThemeModel themeNotifier, child) {
-          return MaterialApp.router(
+          builder: (context, ThemeModel themeNotifier, child) {
+            return MaterialApp.router(
               routerConfig: _router,
               debugShowCheckedModeBanner: false,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
               theme: themeNotifier.isDark
-                  ? ThemeService().darkTheme
-                  : ThemeService().lightTheme);
-        }),
+                  ? ThemePreference().darkTheme
+                  : ThemePreference().lightTheme,
+            );
+          },
+        ),
       );
 
   late final GoRouter _router = GoRouter(
@@ -81,7 +79,7 @@ class MainRouter extends StatelessWidget {
         pageBuilder: (BuildContext context, GoRouterState state) =>
             FadeTransitionPage(
           key: state.pageKey,
-          child: SignInScreen(),
+          child: const SignInScreen(),
         ),
       ),
       GoRoute(
@@ -107,8 +105,8 @@ class MainRouter extends StatelessWidget {
           GoRoute(
             path: ':bookId',
             builder: (BuildContext context, GoRouterState state) {
-              final String bookId = state.params['bookId']!;
-              final Book? selectedBook = libraryInstance.allBooks
+              final bookId = state.params['bookId']!;
+              final selectedBook = libraryInstance.allBooks
                   .firstWhereOrNull((Book b) => b.id.toString() == bookId);
 
               return BookDetailsScreen(book: selectedBook);
@@ -135,8 +133,8 @@ class MainRouter extends StatelessWidget {
           GoRoute(
             path: ':authorId',
             builder: (BuildContext context, GoRouterState state) {
-              final int authorId = int.parse(state.params['authorId']!);
-              final Author? selectedAuthor = libraryInstance.allAuthors
+              final authorId = int.parse(state.params['authorId']!);
+              final selectedAuthor = libraryInstance.allAuthors
                   .firstWhereOrNull((Author a) => a.id == authorId);
 
               return AuthorDetailsScreen(author: selectedAuthor);

@@ -2,24 +2,20 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:go_router/go_router.dart';
+import 'package:testprovider/src/modules/books/data.dart';
+import 'package:testprovider/src/modules/books/screens/author_details.dart';
 import 'package:url_launcher/link.dart';
-
-// Project imports:
-import '../data.dart';
-import 'author_details.dart';
 
 /// A screen to display book details.
 class BookDetailsScreen extends StatelessWidget {
   /// Creates a [BookDetailsScreen].
   const BookDetailsScreen({
-    Key? key,
+    super.key,
     this.book,
-  }) : super(key: key);
+  });
 
   /// The book to be displayed.
   final Book? book;
@@ -77,5 +73,11 @@ class BookDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Book?>('book', book));
   }
 }

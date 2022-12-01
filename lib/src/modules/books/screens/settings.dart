@@ -5,7 +5,6 @@
 // Flutter imports:
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +15,7 @@ import 'package:url_launcher/link.dart';
 /// The settings screen.
 class SettingsScreen extends StatefulWidget {
   /// Creates a [SettingsScreen].
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -48,8 +47,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 class SettingsContent extends StatelessWidget {
   /// Creates a [SettingsContent].
   const SettingsContent({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) => Column(
@@ -79,8 +78,9 @@ class SettingsContent extends StatelessWidget {
               },
               child: const Text('Go directly to /book/0 (GoRouter)'),
             ),
-          ].map<Widget>((Widget w) =>
-              Padding(padding: const EdgeInsets.all(8), child: w)),
+          ].map<Widget>(
+            (Widget w) => Padding(padding: const EdgeInsets.all(8), child: w),
+          ),
           TextButton(
             onPressed: () => showDialog<String>(
               context: context,
@@ -105,37 +105,40 @@ class SettingsContent extends StatelessWidget {
             onPressed: () {
               if (context.locale.toString() == 'en_US') {
                 context.setLocale(const Locale('tr', 'TR'));
-                print("TR");
+                debugPrint("TR");
               } else {
                 context.setLocale(const Locale('en', 'US'));
-                print("EN");
-                print(context.locale.toString());
+                debugPrint("EN");
+                debugPrint(context.locale.toString());
               }
             },
-            child: Text('Change Language'),
+            child: const Text('Change Language'),
           ),
           Consumer<ThemeModel>(
             builder: (context, ThemeModel themeNotifier, child) {
               return ElevatedButton(
-                  child: Row(
-                    children: [
-                      Icon(themeNotifier.isDark
+                child: Row(
+                  children: [
+                    Icon(
+                      themeNotifier.isDark
                           ? Icons.nightlight_round
-                          : Icons.wb_sunny),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text('Change Theme').tr(),
-                    ],
-                  ),
-                  onPressed: () {
-                    themeNotifier.isDark
-                        ? themeNotifier.isDark = false
-                        : themeNotifier.isDark = true;
-                  });
+                          : Icons.wb_sunny,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Text('Change Theme').tr(),
+                  ],
+                ),
+                onPressed: () {
+                  themeNotifier.isDark
+                      ? themeNotifier.isDark = false
+                      : themeNotifier.isDark = true;
+                },
+              );
             },
           ),
-          Text("Hello").tr(),
+          const Text("Hello").tr(),
         ],
       );
 }

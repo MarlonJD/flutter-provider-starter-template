@@ -2,23 +2,19 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:go_router/go_router.dart';
-
-// Project imports:
-import '../data.dart';
-import '../widgets/book_list.dart';
+import 'package:testprovider/src/modules/books/data.dart';
+import 'package:testprovider/src/modules/books/widgets/book_list.dart';
 
 /// The author detail screen.
 class AuthorDetailsScreen extends StatelessWidget {
   /// Creates an author detail screen.
   const AuthorDetailsScreen({
     required this.author,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The author to be displayed.
   final Author? author;
@@ -49,5 +45,11 @@ class AuthorDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Author?>('author', author));
   }
 }

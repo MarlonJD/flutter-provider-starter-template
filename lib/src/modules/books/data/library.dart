@@ -2,32 +2,35 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// Project imports:
-import 'author.dart';
-import 'book.dart';
+import 'package:testprovider/src/modules/books/data/author.dart';
+import 'package:testprovider/src/modules/books/data/book.dart';
 
 /// Library data mock.
 final Library libraryInstance = Library()
   ..addBook(
-      title: 'Left Hand of Darkness',
-      authorName: 'Ursula K. Le Guin',
-      isPopular: true,
-      isNew: true)
+    title: 'Left Hand of Darkness',
+    authorName: 'Ursula K. Le Guin',
+    isPopular: true,
+    isNew: true,
+  )
   ..addBook(
-      title: 'Too Like the Lightning',
-      authorName: 'Ada Palmer',
-      isPopular: false,
-      isNew: true)
+    title: 'Too Like the Lightning',
+    authorName: 'Ada Palmer',
+    isPopular: false,
+    isNew: true,
+  )
   ..addBook(
-      title: 'Kindred',
-      authorName: 'Octavia E. Butler',
-      isPopular: true,
-      isNew: false)
+    title: 'Kindred',
+    authorName: 'Octavia E. Butler',
+    isPopular: true,
+    isNew: false,
+  )
   ..addBook(
-      title: 'The Lathe of Heaven',
-      authorName: 'Ursula K. Le Guin',
-      isPopular: false,
-      isNew: false);
+    title: 'The Lathe of Heaven',
+    authorName: 'Ursula K. Le Guin',
+    isPopular: false,
+    isNew: false,
+  );
 
 /// A library that contains books and authors.
 class Library {
@@ -44,16 +47,16 @@ class Library {
     required bool isPopular,
     required bool isNew,
   }) {
-    final Author author = allAuthors.firstWhere(
+    final author = allAuthors.firstWhere(
       (Author author) => author.name == authorName,
       orElse: () {
-        final Author value = Author(id: allAuthors.length, name: authorName);
+        final value = Author(id: allAuthors.length, name: authorName);
         allAuthors.add(value);
         return value;
       },
     );
 
-    final Book book = Book(
+    final book = Book(
       id: allBooks.length,
       title: title,
       isPopular: isPopular,
